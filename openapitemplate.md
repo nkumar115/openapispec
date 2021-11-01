@@ -53,7 +53,7 @@ the Documentation.
 
 ## Requests and Response
 
-<h1 id="account-and-transaction-api-specification-account-access">Account Access</h1>
+<h3 id="account-and-transaction-api-specification-account-access">Account Access</h3>
  <a id="opIdCreateAccountAccessConsents"></a>
 `POST /account-access-consents`
 
