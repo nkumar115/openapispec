@@ -70,23 +70,9 @@ the Documentation.
    ### Error glossary
    | Error | Code |
    | ----- | ---- |
-   | 400 | | There are several different error titles returned for 400 errors, which will return an explanation in the “detail” field. Some of the most notable include: 
-
-Bad Request 
-This is the generic error type for not being able to process the request, and will generally contain an explanation in the message.
-
-Invalid Resource
-The submitted POST body failed our input validation. This error may include an additional “errors” property, with a list of the validation issues.
-
-Invalid Action: The action requested was not valid for this resource.
-Returned when you try to access an action on a resource that doesn’t support that action.
-
-JSON Parse Exception
-The JSON sent in the request body is not valid JSON.|
-| 401 | "API Key Invalid
-The API key is either invalid or disabled; there will be more information in the “detail”. For help authenticating with the Marketing API, see the Quick Start guide."|
-| 404 | "Resource Not Found: The requested resource could not be found.
-Either no object exists with the ID provided in the path, or the path is incorrect."|
+   | 400 | There are several different error titles returned for 400 errors, which will return an explanation in the “detail” field. Some of the most notable include:<br />Bad Request : This is the generic error type for not being able to process the request, and will generally contain an explanation in the message.<br /> Invalid Resourcen: The submitted POST body failed our input validation. This error may include an additional “errors” property, with a list of the validation issues.<br />Invalid Action: The action requested was not valid for this resource. Returned when you try to access an action on a resource that doesn’t support that action.<br />JSON Parse Exception: The JSON sent in the request body is not valid JSON.|
+| 401 | "API Key Invalid: The API key is either invalid or disabled; there will be more information in the “detail”. For help authenticating with the Marketing API, see the Quick Start guide."|
+| 404 | "Resource Not Found: The requested resource could not be found. Either no object exists with the ID provided in the path, or the path is incorrect."|
    
 
 
