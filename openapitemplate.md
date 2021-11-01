@@ -218,8 +218,8 @@ p JSON.parse(result)
     "instance": "3b4dcb40-0b6b-4820-bfaa-41267b3826ea"
     }
    ```
-   ### Error glossary
-   |Status|Meaning|Description|Schema|
+   ### Error Code Mappings
+   |HTTP Status Code|Error Message|Error Scenario|Schema|
 |---|---|---|---|
 |400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request|[OBErrorResponse1](#schemaoberrorresponse1)|
 |401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
