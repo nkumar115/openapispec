@@ -43,99 +43,175 @@ Securities Services API also supports connection using leased line which provide
 
 ## Requests and Response
 
-<h3 id="account-and-transaction-api-specification-account-access">Account Access</h3>
- <a id="opIdCreateAccountAccessConsents"></a>
-`POST /account-access-consents`
+The Trade Status API allows clients to access their trade related information and the latest status for all settled and pending trade instructions. This includes the latest market and processing status available from Securities Services custody operating systems. This shall provide clients with the following benefits:
 
-Create Account Access Consents
+* Real-time access to trade status information
+* Clients can obtain their trade information directly without having to rely on e-mail communications
+* Clients can call the API to display the narrative describing the trade status and fail reasons
+* Ability to determine the processing status of the trade, whether it is still being processed by the sub-custodian, released to the market, completed trade matching and exceptions, and finally if the trade has settled.
+* Ability to extract historical trades that have previously been settled or cancelled in HSBC records.
+
+
+<h3>Direct Custody - Trade Processing</h3>
+ <a id=""></a>
+`GET /v2/trades/`
+
+Direct Custody - Trade Processing
 
 > Body parameter
 
 ```json
 {
-  "Data": {
-    "Permissions": [
-      "ReadAccountsBasic"
-    ],
-    "ExpirationDateTime": "2019-08-24T14:15:22Z",
-    "TransactionFromDateTime": "2019-08-24T14:15:22Z",
-    "TransactionToDateTime": "2019-08-24T14:15:22Z"
-  },
-  "Risk": {}
+   "tradeStatuses":"SETTLED",
+   "hsbcTradeReferenceNumbers":"D-123456-00-0",
+   "countryTerritoryLocationCodes":"HK"
 }
 ```
 
-<h3 id="createaccountaccessconsents-parameters">Parameters</h3>
+<h3>Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|x-fapi-auth-date|header|string|false|The time when the PSU last logged in with the TPP. |
-|x-fapi-customer-ip-address|header|string|false|The PSU's IP address if the PSU is currently logged in with the TPP.|
-|x-fapi-interaction-id|header|string|false|An RFC4122 UID used as a correlation id.|
-|Authorization|header|string|true|An Authorisation Token as per https://tools.ietf.org/html/rfc6750|
-|x-customer-user-agent|header|string|false|Indicates the user-agent that the PSU is using.|
-|body|body|[OBReadConsent1](#schemaobreadconsent1)|true|Default|
+|limit|query|false|integer|Default value : 500|
+|securitiesAccountNumbers|query|false|array(string)|nput by client, no more than 99 account numbers can be specified in one request.|
+|transactionTypes|query|false|arary(string)|Input by client, a set of maximum 10 values can be entered with comma as separator.|
+|hsbcTradeReferenceNumbers|query|false|array(string)|Input by client, no more than 99 HSBC Trade Reference Numbers can be specified.|
+|clientReferences|query|false|array(string)|Input by client, no more than 99 client references can be specified.|
+|tradeDatePeriodStart|query|false|string($date)|Input by client. If trade date period start is blank, extract up to oldest available trade date record in database.|
+|instructionDatePeriodStart|query|false|string($date)|nput by client. If instruction date period end is blank, extract up to latest available instruction date record in database.|
+|tradeStatuses|query|true|array[string]|Input by client, as mandatory. A set of maximum 10 values (UNMATCHED, MATCHED, FAILED, SETTLED, CANCELLED, ALL, PENDING, ALLEGED, PENDING_CANCELLATION, PENDING_AMENDMENT) can be entered with comma as separator. Refer to Appendix Trade API.|
+
+
 
 #### Detailed descriptions
 
-**x-fapi-auth-date**: The time when the PSU last logged in with the TPP. 
-All dates in the HTTP headers are represented as RFC 7231 Full Dates. An example is below: 
-Sun, 10 Sep 2017 19:43:31 UTC
-
 > Example responses
 
-> 201 Response
+> 200 OK Response
 
 ```json
 {
-  "Data": {
-    "ConsentId": "string",
-    "CreationDateTime": "2019-08-24T14:15:22Z",
-    "Status": "Authorised",
-    "StatusUpdateDateTime": "2019-08-24T14:15:22Z",
-    "Permissions": [
-      "ReadAccountsBasic"
-    ],
-    "ExpirationDateTime": "2019-08-24T14:15:22Z",
-    "TransactionFromDateTime": "2019-08-24T14:15:22Z",
-    "TransactionToDateTime": "2019-08-24T14:15:22Z"
-  },
-  "Risk": {},
-  "Links": {
-    "Self": "http://example.com",
-    "First": "http://example.com",
-    "Prev": "http://example.com",
-    "Next": "http://example.com",
-    "Last": "http://example.com"
-  },
-  "Meta": {
-    "TotalPages": 0,
-    "FirstAvailableDateTime": "2019-08-24T14:15:22Z",
-    "LastAvailableDateTime": "2019-08-24T14:15:22Z"
-  }
+  "total": 500,
+  "offset": 499,
+  "count": 1,
+  "data": [
+    {
+      "groupMemberId": "HSBC",
+      "securitiesAccountNumber": "002-151074-421",
+      "securitiesAccountName": "NBIT AWD MODEL OFFICE 3",
+      "hsbcTradeReferenceNumber": "R-666666-22-1",
+      "clientReference": "09291800003030C",
+      "marketSpecificReference": "P12345678",
+      "transactionType": "DVP",
+      "tradeDate": "2018-04-12",
+      "instructionDate": "2018-04-13",
+      "contractualSettlementDate": "2018-04-14",
+      "actualSettlementDate": "2018-04-15",
+      "security": {
+        "name": "CHINA SHANSHUI CEMENT GROUP LTD",
+        "type": "CDEP",
+        "isin": "AU3FN0001764",
+        "sedol": "0263494",
+        "cusip": "17275R102",
+        "localSecurityCode": "string",
+        "identifier": "G6469T1009BM"
+      },
+      "countryTerritoryLocationCode": "PL",
+      "placeOfSettlementBic": "MGTCBEBEECL",
+      "securityQuantity": "2609080",
+      "dealPriceCurrency": "USD",
+      "dealPrice": "123456.789",
+      "settlementCurrency": "USD",
+      "settlementAmount": "123456.789",
+      "subCustodianName": "THE HONG KONG & SHANGHAI BANKING CORPORATION LIMIT",
+      "associatedAccount": "91197",
+      "associatedSubAccount": "91197",
+      "valueDate": "2018-04-14",
+      "counterparties": {
+        "deliveringAgentReceivingAgent": {
+          "name": "HSBC QATAR",
+          "bic": "GKGTSGS1",
+          "dataSourceSchemeType": "P",
+          "dataSourceSchemeCode": "CCAS",
+          "account": "567-891012-123"
+        },
+        "buyerSeller": {
+          "name": "HSBC QATAR",
+          "bic": "GKGTSGS1",
+          "dataSourceSchemeType": "P",
+          "dataSourceSchemeCode": "CCAS",
+          "account": "567-891012-123"
+        },
+        "deliverersCustodianReceiversCustodian": {
+          "name": "HSBC QATAR",
+          "bic": "GKGTSGS1",
+          "dataSourceSchemeType": "P",
+          "dataSourceSchemeCode": "CCAS",
+          "account": "567-891012-123"
+        }
+      },
+      "tradeStatus": "string",
+      "statusCode1SWIFT": "SETT//PEND",
+      "status1ReasonCode1SWIFT": "IPRC//REPR",
+      "status1ReasonCode2SWIFT": "IPRC//REPR",
+      "statusCode2SWIFT": "SETT//PEND",
+      "status2ReasonCode1SWIFT": "IPRC//REPR",
+      "status2ReasonCode2SWIFT": "IPRC//REPR",
+      "reasonNarrative": "Under processing by sub-custodian.",
+      "lastUpdatedDateTime": {},
+      "stpIndicator": "N"
+    }
+  ]
+}
+
+
+```
+> 400 Bad Request
+
+```json
+{
+  "title": "Bad Request",
+  "status": 400,
+  "detail": "",
+  "invalidParams": [
+    {
+      "name": "tradeStatuses",
+      "detail": "Parameter is required."
+    }
+  ],
+  "requestId": "3247982",
+  "supportTeam": "HSBC Securities Services",
+  "supportContactEmail": "client.digital.experience.hssasp@hsbc.com.hk",
+  "dateTime": "2018-08-13T12:48:20.278"
+}
+
+```
+> 401 Authentication Error
+```json
+{
+  "title": "Authentication failure",
+  "status": 401,
+  "detail": "",
+  "requestId": "3247982",
+  "supportTeam": "HSBC Securities Services",
+  "supportContactEmail": "client.digital.experience.hssasp@hsbc.com.hk",
+  "dateTime": "2018-08-13T12:48:20.278"
+}
+```
+> 503 Server unavailable
+```json
+{
+  "title": "Service Unavailable",
+  "status": 503,
+  "detail": "",
+  "requestId": "3247982",
+  "supportTeam": "HSBC Securities Services",
+  "supportContactEmail": "client.digital.experience.hssasp@hsbc.com.hk",
+  "dateTime": "2018-08-13T12:48:20.278"
 }
 ```
 
-
 ### Response Headers
-
-|Status|Header|Type|Format|Description|
-|---|---|---|---|---|
-|201|x-fapi-interaction-id|string||An RFC4122 UID used as a correlation id.|
-|400|x-fapi-interaction-id|string||An RFC4122 UID used as a correlation id.|
-|401|x-fapi-interaction-id|string||An RFC4122 UID used as a correlation id.|
-|403|x-fapi-interaction-id|string||An RFC4122 UID used as a correlation id.|
-|405|x-fapi-interaction-id|string||An RFC4122 UID used as a correlation id.|
-|406|x-fapi-interaction-id|string||An RFC4122 UID used as a correlation id.|
-|415|x-fapi-interaction-id|string||An RFC4122 UID used as a correlation id.|
-|429|Retry-After|integer||Number in seconds to wait|
-|429|x-fapi-interaction-id|string||An RFC4122 UID used as a correlation id.|
-|500|x-fapi-interaction-id|string||An RFC4122 UID used as a correlation id.|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-TPPOAuth2Security ( Scopes: accounts )
-</aside>
 
 
 ## SDKs and Libraries
@@ -143,81 +219,86 @@ TPPOAuth2Security ( Scopes: accounts )
 ### Python
 
 ```python
-import requests
-headers = {
-  'Content-Type': 'application/json; charset=utf-8',
-  'Accept': 'application/json; charset=utf-8',
-  'x-fapi-auth-date': 'string',
-  'x-fapi-customer-ip-address': 'string',
-  'x-fapi-interaction-id': 'string',
-  'Authorization': 'string',
-  'x-customer-user-agent': 'string'
-}
+import http.client
 
-r = requests.post('https://sandbox-mtls.ob.hsbc.co.uk/open-banking/v3.1/aisp/account-access-consents', headers = headers)
+conn = http.client.HTTPSConnection("api.securities-services.gbm.hsbc.com")
 
-print(r.json())
+headers = { 'authorization': "Bearer REPLACE_BEARER_TOKEN" }
+
+conn.request("GET", "/custody/v2/trades/?limit=SOME_INTEGER_VALUE&offset=SOME_INTEGER_VALUE&securitiesAccountNumbers=SOME_ARRAY_VALUE&transactionTypes=SOME_ARRAY_VALUE&hsbcTradeReferenceNumbers=SOME_ARRAY_VALUE&clientReferences=SOME_ARRAY_VALUE&tradeDatePeriodStart=SOME_STRING_VALUE&tradeDatePeriodEnd=SOME_STRING_VALUE&instructionDatePeriodStart=SOME_STRING_VALUE&instructionDatePeriodEnd=SOME_STRING_VALUE&contractualSettlementDatePeriodStart=SOME_STRING_VALUE&contractualSettlementDatePeriodEnd=SOME_STRING_VALUE&actualSettlementDatePeriodStart=SOME_STRING_VALUE&actualSettlementDatePeriodEnd=SOME_STRING_VALUE&lastUpdatedDateTimePeriodStart=SOME_STRING_VALUE&lastUpdatedDateTimePeriodEnd=SOME_STRING_VALUE&countryTerritoryLocationCodes=SOME_ARRAY_VALUE&placeOfSettlementBics=SOME_ARRAY_VALUE&tradeStatuses=SOME_ARRAY_VALUE&reasonCodesSWIFT=SOME_ARRAY_VALUE", headers=headers)
+
+res = conn.getresponse()
+data = res.read()
+
+print(data.decode("utf-8"))
 
 ```
-### Ruby
-```ruby
-require 'rest-client'
-require 'json'
+### Java
+```java
+OkHttpClient client = new OkHttpClient();
 
-headers = {
-  'Content-Type' => 'application/json; charset=utf-8',
-  'Accept' => 'application/json; charset=utf-8',
-  'x-fapi-auth-date' => 'string',
-  'x-fapi-customer-ip-address' => 'string',
-  'x-fapi-interaction-id' => 'string',
-  'Authorization' => 'string',
-  'x-customer-user-agent' => 'string'
-}
+Request request = new Request.Builder()
+  .url("https://api.securities-services.gbm.hsbc.com/custody/v2/trades/?limit=SOME_INTEGER_VALUE&offset=SOME_INTEGER_VALUE&securitiesAccountNumbers=SOME_ARRAY_VALUE&transactionTypes=SOME_ARRAY_VALUE&hsbcTradeReferenceNumbers=SOME_ARRAY_VALUE&clientReferences=SOME_ARRAY_VALUE&tradeDatePeriodStart=SOME_STRING_VALUE&tradeDatePeriodEnd=SOME_STRING_VALUE&instructionDatePeriodStart=SOME_STRING_VALUE&instructionDatePeriodEnd=SOME_STRING_VALUE&contractualSettlementDatePeriodStart=SOME_STRING_VALUE&contractualSettlementDatePeriodEnd=SOME_STRING_VALUE&actualSettlementDatePeriodStart=SOME_STRING_VALUE&actualSettlementDatePeriodEnd=SOME_STRING_VALUE&lastUpdatedDateTimePeriodStart=SOME_STRING_VALUE&lastUpdatedDateTimePeriodEnd=SOME_STRING_VALUE&countryTerritoryLocationCodes=SOME_ARRAY_VALUE&placeOfSettlementBics=SOME_ARRAY_VALUE&tradeStatuses=SOME_ARRAY_VALUE&reasonCodesSWIFT=SOME_ARRAY_VALUE")
+  .get()
+  .addHeader("authorization", "Bearer REPLACE_BEARER_TOKEN")
+  .build();
 
-result = RestClient.post 'https://sandbox-mtls.ob.hsbc.co.uk/open-banking/v3.1/aisp/account-access-consents',
-  params: {
-  }, headers: headers
+Response response = client.newCall(request).execute();
+```
 
-p JSON.parse(result)
+### Javascript
+```javascript
+var data = null;
+
+var xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener("readystatechange", function () {
+  if (this.readyState === this.DONE) {
+    console.log(this.responseText);
+  }
+});
+
+xhr.open("GET", "https://api.securities-services.gbm.hsbc.com/custody/v2/trades/?limit=SOME_INTEGER_VALUE&offset=SOME_INTEGER_VALUE&securitiesAccountNumbers=SOME_ARRAY_VALUE&transactionTypes=SOME_ARRAY_VALUE&hsbcTradeReferenceNumbers=SOME_ARRAY_VALUE&clientReferences=SOME_ARRAY_VALUE&tradeDatePeriodStart=SOME_STRING_VALUE&tradeDatePeriodEnd=SOME_STRING_VALUE&instructionDatePeriodStart=SOME_STRING_VALUE&instructionDatePeriodEnd=SOME_STRING_VALUE&contractualSettlementDatePeriodStart=SOME_STRING_VALUE&contractualSettlementDatePeriodEnd=SOME_STRING_VALUE&actualSettlementDatePeriodStart=SOME_STRING_VALUE&actualSettlementDatePeriodEnd=SOME_STRING_VALUE&lastUpdatedDateTimePeriodStart=SOME_STRING_VALUE&lastUpdatedDateTimePeriodEnd=SOME_STRING_VALUE&countryTerritoryLocationCodes=SOME_ARRAY_VALUE&placeOfSettlementBics=SOME_ARRAY_VALUE&tradeStatuses=SOME_ARRAY_VALUE&reasonCodesSWIFT=SOME_ARRAY_VALUE");
+xhr.setRequestHeader("authorization", "Bearer REPLACE_BEARER_TOKEN");
+
+xhr.send(data);
 
 ```
+
 ## Error messages
    ### Error format
    API errors in two ways: standard HTTP response codes and human-readable messages in JSON format.
    
    ### Error – HTTP Response
    ```
-   HTTP/1.1 405 Method Not Allowed
-   Server: nginx
-   Content-Type: application/problem+json; charset=utf-8
-   Content-Length: 253
-   X-Request-Id: a1efb240-f8d8-40fe-a680-c3a5619a42e9
-   Link: <https://us2.api.mailchimp.com/schema/3.0/ProblemDetailDocument.json>; rel="describedBy"
-   Date: Thu, 17 Sep 2015 19:02:28 GMT
-   Connection: keep-alive
-   Set-Cookie: _AVESTA_ENVIRONMENT=prod; path=/
    ```
    
    ### Error – JSON
    ```
-   {
-    "type": "https://mailchimp.com/developer/marketing/docs/errors/",
-    "title": "Method Not Allowed",
-    "status": 405,
-    "detail": "The requested method and resource are not compatible. See the Allow header for this resource's available methods.",
-    "instance": "3b4dcb40-0b6b-4820-bfaa-41267b3826ea"
-    }
+{
+  "title": "Service Unavailable",
+  "status": 503,
+  "detail": "",
+  "requestId": "3247982",
+  "supportTeam": "HSBC Securities Services",
+  "supportContactEmail": "client.digital.experience.hssasp@hsbc.com.hk",
+  "dateTime": "2018-08-13T12:48:20.278"
+}
    ```
    ### Error Code Mappings
-   |HTTP Status Code|Error Message|Error Scenario|Schema|
-|---|---|---|---|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request|[OBErrorResponse1](#schemaoberrorresponse1)|
-|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
-|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|[OBErrorResponse1](#schemaoberrorresponse1)|
-|405|[Method Not Allowed](https://tools.ietf.org/html/rfc7231#section-6.5.5)|Method Not Allowed|None|
-|406|[Not Acceptable](https://tools.ietf.org/html/rfc7231#section-6.5.6)|Not Acceptable|None|
-|429|[Too Many Requests](https://tools.ietf.org/html/rfc6585#section-4)|Too Many Requests|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|[OBErrorResponse1](#schemaoberrorresponse1)|
+   |HTTP Status Code|Error Message|Error Scenario|Possible Root Cause|Suggested Action|
+|---|---|---|---|---|
+|200|OK|Standard response for successful HTTP requests|- Legitimate request is processed without errors|- No action is required|
+|400|Bad Request|The server cannot or will not process the request due to an apparent client error (e.g., malformed request syntax, size too large, invalid parameters)|- Input parameter(s) is supplied in invalid format. For the details of validation, please refer to the following section on the Validation Framework</br>- No token is supplied in the request header|- Review the validation errors in conjunction with the Validation Framework and/or review the API Specification|
+|401|Unauthorized|Similar to 403 Forbidden, but specifically for use when authentication is required and has failed or has not yet been provided|- Invalid token or expired token is supplied in the request header</br>- Valid token is supplied however the API Profile Account has not been fully set-up|- Confirm a valid token has been supplied</br>- Confirm the supplied token has been registered with a valid and non-elapsed profile</br>- Confirm the API Profile Account has been fully set-up|
+|403|Forbidden|The request was valid, but the server is refusing action. The user might not have the necessary permissions for a resource|- Valid token has been supplied and the profile is validated; however the profile does not have the permissions to access the specified API</br>- Valid token has been supplied and the profile is validated; however the profile does not have the permissions to access the specified accounts|- Confirm a valid token has been supplied</br>- Confirm the profile has access to the specified API’s and/or accounts|
+|404|	Not Found|The requested resource could not be found but may be available in the future. Subsequent requests by the client are permissible|- An incorrect URI is used in the request, which points to no resource or service|- Confirm if the request is submitted to the correct URI|
+|405|Method Not Allowed|A request method is not supported for the requested resource. For example, a GET request on a form that requires data to be presented via POST, or a PUT request on a read-only resource|- An incorrect method is used in the request which the service does not support|- Confirm if the request is submitted with the correct method. Allowed methods for the API can be viewed in the API Specification|
+|429|Too Many Requests|The user has sent too many requests in a given amount of time|- The client has reached its maximum allowed rate limit for the time current period|- Wait and resubmit request later|
+|500|Internal Server Error|A generic error message, given when an unexpected condition was encountered and no more specific message is suitable|- Unexpected processing error has been encountered|- Contact HSS API Support team to investigate the error. Provide the error with the request Id from the error|
+|502|Bad Gateway|The server was acting as a gateway or proxy and received an invalid response from the upstream server|- API Gateway is unable to response to the request|- Confirm the request is within the hours of operation. There may be down-time associated with maintenance</br>- Contact HSS API Support team to investigate the error. Provide the error with the request Id from the error|
+|503|Service Unavailable|The server is currently unavailable|- Servers are unavailable at this time|- Confirm the request is within the hours of operation. There may be down-time associated with maintenance</br>-Contact HSS API Support team to investigate the error. Provide the error with the request Id from the error|
 
 
 
