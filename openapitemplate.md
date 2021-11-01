@@ -1,4 +1,4 @@
-## Overview Section
+## Overview
 
 The Account Information API is used to inform the account owner of the Balance and Transaction entries booked to the account for a given date or time-range on a specific day.
 
@@ -12,10 +12,7 @@ This document provides the guidelines required to enable organisations to implem
 
 ## Getting Started
 
-
-## Terms and Condiditions
-
-
+### Terms and Condiditions
 1. Components of the Agreement. The Developer Agreement (the “Developer Agreement”) is comprised of the following:
 these Developer Terms, including the Data Protection Appendix and the Developer Policy;
 our Terms and Conditions of Use;
@@ -28,6 +25,8 @@ the Documentation.
 6. Independent Contractors. There is no joint venture, partnership, agency, or fiduciary relationship existing between you and Spotify, and the parties do not intend to create any such relationship by the Developer Agreement.
 7. Capitalized terms not otherwise defined herein have the meaning given in our other terms and policies, including our Terms and Conditions of Use. The term “including” means “including without limitation.”
 8. If you are an Australian consumer or small business (as defined by Australian Consumer Law): These terms do not exclude or limit any statutory rights or remedies you may have under Australian Consumer Law. However, to the extent permitted by the Australian Consumer Law, Spotify’s liability for any breach of the consumer guarantees is limited to (as elected by Spotify) the resupply of the goods or services to which the breach relates or the payment of the cost of replacing the goods or resupplying the services.
+
+### Contact Detail
 
 
 ## Authentication
@@ -52,8 +51,10 @@ the Documentation.
 |---|---|
 |accounts|Ability to read Accounts information|
 
-## Explanations of Request-Response Cycles
+## Requests and Response
+
 <h1 id="account-and-transaction-api-specification-account-access">Account Access</h1>
+ <a id="opIdCreateAccountAccessConsents"></a>
 `POST /account-access-consents`
 
 Create Account Access Consents
@@ -126,12 +127,30 @@ Sun, 10 Sep 2017 19:43:31 UTC
 ```
 
 
-## Links to SDKs and Code Libraries
- ## CreateAccountAccessConsents
+### Response Headers
 
-<a id="opIdCreateAccountAccessConsents"></a>
+|Status|Header|Type|Format|Description|
+|---|---|---|---|---|
+|201|x-fapi-interaction-id|string||An RFC4122 UID used as a correlation id.|
+|400|x-fapi-interaction-id|string||An RFC4122 UID used as a correlation id.|
+|401|x-fapi-interaction-id|string||An RFC4122 UID used as a correlation id.|
+|403|x-fapi-interaction-id|string||An RFC4122 UID used as a correlation id.|
+|405|x-fapi-interaction-id|string||An RFC4122 UID used as a correlation id.|
+|406|x-fapi-interaction-id|string||An RFC4122 UID used as a correlation id.|
+|415|x-fapi-interaction-id|string||An RFC4122 UID used as a correlation id.|
+|429|Retry-After|integer||Number in seconds to wait|
+|429|x-fapi-interaction-id|string||An RFC4122 UID used as a correlation id.|
+|500|x-fapi-interaction-id|string||An RFC4122 UID used as a correlation id.|
 
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+TPPOAuth2Security ( Scopes: accounts )
+</aside>
+
+
+## SDKs and Libraries
 > Code samples
+### Python
 
 ```python
 import requests
@@ -150,7 +169,7 @@ r = requests.post('https://sandbox-mtls.ob.hsbc.co.uk/open-banking/v3.1/aisp/acc
 print(r.json())
 
 ```
-
+### Ruby
 ```ruby
 require 'rest-client'
 require 'json'
@@ -200,12 +219,15 @@ p JSON.parse(result)
     }
    ```
    ### Error glossary
-   | Error | Code |
-   | ----- | ---- |
-   | 400 | There are several different error titles returned for 400 errors, which will return an explanation in the “detail” field. Some of the most notable include:<br />Bad Request : This is the generic error type for not being able to process the request, and will generally contain an explanation in the message.<br /> Invalid Resourcen: The submitted POST body failed our input validation. This error may include an additional “errors” property, with a list of the validation issues.<br />Invalid Action: The action requested was not valid for this resource. Returned when you try to access an action on a resource that doesn’t support that action.<br />JSON Parse Exception: The JSON sent in the request body is not valid JSON.|
-| 401 | "API Key Invalid: The API key is either invalid or disabled; there will be more information in the “detail”. For help authenticating with the Marketing API, see the Quick Start guide."|
-| 404 | "Resource Not Found: The requested resource could not be found. Either no object exists with the ID provided in the path, or the path is incorrect."|
-   
+   |Status|Meaning|Description|Schema|
+|---|---|---|---|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request|[OBErrorResponse1](#schemaoberrorresponse1)|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|[OBErrorResponse1](#schemaoberrorresponse1)|
+|405|[Method Not Allowed](https://tools.ietf.org/html/rfc7231#section-6.5.5)|Method Not Allowed|None|
+|406|[Not Acceptable](https://tools.ietf.org/html/rfc7231#section-6.5.6)|Not Acceptable|None|
+|429|[Too Many Requests](https://tools.ietf.org/html/rfc6585#section-4)|Too Many Requests|None|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|[OBErrorResponse1](#schemaoberrorresponse1)|
 
 
 
@@ -217,3 +239,9 @@ Change log and release history:
 | ------- | --- | ---- |------------- | ----------- |
 | V1 | December | 2018 |Deprecated | Account Balance API|
 | V2 | June | 2019 | Live | Bug fixes and added Account Transaction API |
+
+## Document Version
+| Version | Release | Date  | Author | Description |
+| ------- | --- | ---- |------------- | ----------- |
+ V1 | December | 2018 | ABC | Additional changes in SDKs sections|
+
