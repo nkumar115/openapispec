@@ -67,6 +67,9 @@ the Documentation.
     "instance": "3b4dcb40-0b6b-4820-bfaa-41267b3826ea"
     }
    ```
+   ### Error glossary
+   | Error | Code |
+   
 
 
 
