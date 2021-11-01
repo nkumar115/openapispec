@@ -30,3 +30,9 @@ This document provides the guidelines required to enable organisations to implem
 
 
 ## Change log
+
+Change log and release history:
+
+Version	Release Date	Status	Description
+v1	December 2018	Deprecated	Account Balance API
+v2	June 2019	Live	Bug fixes and added Account Transaction API
