@@ -56,6 +56,17 @@ the Documentation.
    Connection: keep-alive
    Set-Cookie: _AVESTA_ENVIRONMENT=prod; path=/
    ```
+   
+   ### Error – JSON
+   ```
+   {
+    "type": "https://mailchimp.com/developer/marketing/docs/errors/",
+    "title": "Method Not Allowed",
+    "status": 405,
+    "detail": "The requested method and resource are not compatible. See the Allow header for this resource's available methods.",
+    "instance": "3b4dcb40-0b6b-4820-bfaa-41267b3826ea"
+    }
+    ```
 
 
 
