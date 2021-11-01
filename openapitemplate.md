@@ -219,15 +219,15 @@ p JSON.parse(result)
     }
    ```
    ### Error Code Mappings
-   |HTTP Status Code|Error Message|Error Scenario|Schema|
+   |HTTP Status Code|Error Message|Error Scenario|Possible Root Cause|Suggested Action|
 |---|---|---|---|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request|[OBErrorResponse1](#schemaoberrorresponse1)|
-|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
-|403|[Forbidden](https://tools.ietf.org/html/rfc7231#section-6.5.3)|Forbidden|[OBErrorResponse1](#schemaoberrorresponse1)|
-|405|[Method Not Allowed](https://tools.ietf.org/html/rfc7231#section-6.5.5)|Method Not Allowed|None|
-|406|[Not Acceptable](https://tools.ietf.org/html/rfc7231#section-6.5.6)|Not Acceptable|None|
-|429|[Too Many Requests](https://tools.ietf.org/html/rfc6585#section-4)|Too Many Requests|None|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal Server Error|[OBErrorResponse1](#schemaoberrorresponse1)|
+|400|Bad Request| | | |
+|401|Unauthorized| | | |
+|403|Forbidden| | | |
+|405|Method Not Allowed| | | |
+|406|Not Acceptable| | | |
+|429|Too Many Requests| | | |
+|500|Internal Server Error| | | |
 
 
 
