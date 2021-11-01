@@ -31,6 +31,10 @@ This document provides the guidelines required to enable organisations to implem
 
 ## Change log
 
+| Attempt | #1  | #2  |
+| ------- | --- | --- |
+| Seconds | 301 | 283 |
+
 Change log and release history:
 
 Version	Release Date	Status	Description
