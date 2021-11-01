@@ -83,10 +83,10 @@ Returned when you try to access an action on a resource that doesn’t support t
 
 JSON Parse Exception
 The JSON sent in the request body is not valid JSON.|
-| 401 | API Key Invalid
-The API key is either invalid or disabled; there will be more information in the “detail”. For help authenticating with the Marketing API, see the Quick Start guide.|
-| 404 | Resource Not Found: The requested resource could not be found.
-Either no object exists with the ID provided in the path, or the path is incorrect.|
+| 401 | "API Key Invalid
+The API key is either invalid or disabled; there will be more information in the “detail”. For help authenticating with the Marketing API, see the Quick Start guide."|
+| 404 | "Resource Not Found: The requested resource could not be found.
+Either no object exists with the ID provided in the path, or the path is incorrect."|
    
 
 
