@@ -33,7 +33,7 @@ This document provides the guidelines required to enable organisations to implem
 Change log and release history:
 
 | Version | Release | Date  | Status | Description |
-| ------- | --- | --- |------------- | ----------- |
+| ------- | --- | ---- |------------- | ----------- |
 | V1 | December | 2018 |Deprecated | Account Balance API|
-|-------- | --- | ---- | ---------- | ----------- |
+| -------- | --- | ---- | ---------- | ----------- |
 | V2 | June | 2019 | Live | Bug fixes and added Account Transaction API |
