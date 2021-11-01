@@ -42,6 +42,20 @@ the Documentation.
 
 ## Error messages
    ### Error format
+   API errors in two ways: standard HTTP response codes and human-readable messages in JSON format.
+   
+   ### ERROR JSON
+   HTTP/1.1 405 Method Not Allowed
+   Server: nginx
+   Content-Type: application/problem+json; charset=utf-8
+   Content-Length: 253
+   X-Request-Id: a1efb240-f8d8-40fe-a680-c3a5619a42e9
+   Link: <https://us2.api.mailchimp.com/schema/3.0/ProblemDetailDocument.json>; rel="describedBy"
+   Date: Thu, 17 Sep 2015 19:02:28 GMT
+   Connection: keep-alive
+   Set-Cookie: _AVESTA_ENVIRONMENT=prod; path=/
+
+
 
 
 ## Change log
