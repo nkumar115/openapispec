@@ -8,3 +8,25 @@ camt.052.001.02 - Bank to Customer Account Report - used for balances and intrad
 camt.053.001.02 - Bank to Customer Statement - used for reporting of historical date transactions
 HSBC JSON - covers balances and transactions for current date and historical periods
 This document provides the guidelines required to enable organisations to implement the Account Information responses into their systems and processes.
+
+
+## Getting Started
+
+
+## Terms and Condiditions
+
+
+## Authentication
+
+
+
+## Explanations of Request-Response Cycles
+
+
+## Links to SDKs and Code Libraries
+
+
+## Error messages
+
+
+## Change log
