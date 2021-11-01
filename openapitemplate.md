@@ -44,7 +44,8 @@ the Documentation.
    ### Error format
    API errors in two ways: standard HTTP response codes and human-readable messages in JSON format.
    
-   ### ERROR JSON
+   ### Error – HTTP Response
+   ```
    HTTP/1.1 405 Method Not Allowed
    Server: nginx
    Content-Type: application/problem+json; charset=utf-8
@@ -54,6 +55,7 @@ the Documentation.
    Date: Thu, 17 Sep 2015 19:02:28 GMT
    Connection: keep-alive
    Set-Cookie: _AVESTA_ENVIRONMENT=prod; path=/
+   ```
 
 
 
