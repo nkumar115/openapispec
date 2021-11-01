@@ -220,7 +220,7 @@ p JSON.parse(result)
    ```
    ### Error Code Mappings
    |HTTP Status Code|Error Message|Error Scenario|Possible Root Cause|Suggested Action|
-|---|---|---|---|
+|---|---|---|---|----|
 |400|Bad Request| | | |
 |401|Unauthorized| | | |
 |403|Forbidden| | | |
