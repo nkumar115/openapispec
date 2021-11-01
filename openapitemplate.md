@@ -32,14 +32,146 @@ the Documentation.
 
 ## Authentication
 
+- oAuth2 authentication. TPP client credential authorisation flow with the ASPSP
 
+    - Flow: clientCredentials
+
+    - Token URL = [https://authserver.example/token](https://authserver.example/token)
+
+|Scope|Scope Description|
+|---|---|
+|accounts|Ability to read Accounts information|
+
+- oAuth2 authentication. OAuth flow, it is required when the PSU needs to perform SCA with the ASPSP when a TPP wants to access an ASPSP resource owned by the PSU
+
+    - Flow: authorizationCode
+    - Authorization URL = [https://authserver.example/authorization](https://authserver.example/authorization)
+    - Token URL = [https://authserver.example/token](https://authserver.example/token)
+
+|Scope|Scope Description|
+|---|---|
+|accounts|Ability to read Accounts information|
 
 ## Explanations of Request-Response Cycles
+<h1 id="account-and-transaction-api-specification-account-access">Account Access</h1>
+`POST /account-access-consents`
+
+Create Account Access Consents
+
+> Body parameter
+
+```json
+{
+  "Data": {
+    "Permissions": [
+      "ReadAccountsBasic"
+    ],
+    "ExpirationDateTime": "2019-08-24T14:15:22Z",
+    "TransactionFromDateTime": "2019-08-24T14:15:22Z",
+    "TransactionToDateTime": "2019-08-24T14:15:22Z"
+  },
+  "Risk": {}
+}
+```
+
+<h3 id="createaccountaccessconsents-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|x-fapi-auth-date|header|string|false|The time when the PSU last logged in with the TPP. |
+|x-fapi-customer-ip-address|header|string|false|The PSU's IP address if the PSU is currently logged in with the TPP.|
+|x-fapi-interaction-id|header|string|false|An RFC4122 UID used as a correlation id.|
+|Authorization|header|string|true|An Authorisation Token as per https://tools.ietf.org/html/rfc6750|
+|x-customer-user-agent|header|string|false|Indicates the user-agent that the PSU is using.|
+|body|body|[OBReadConsent1](#schemaobreadconsent1)|true|Default|
+
+#### Detailed descriptions
+
+**x-fapi-auth-date**: The time when the PSU last logged in with the TPP. 
+All dates in the HTTP headers are represented as RFC 7231 Full Dates. An example is below: 
+Sun, 10 Sep 2017 19:43:31 UTC
+
+> Example responses
+
+> 201 Response
+
+```json
+{
+  "Data": {
+    "ConsentId": "string",
+    "CreationDateTime": "2019-08-24T14:15:22Z",
+    "Status": "Authorised",
+    "StatusUpdateDateTime": "2019-08-24T14:15:22Z",
+    "Permissions": [
+      "ReadAccountsBasic"
+    ],
+    "ExpirationDateTime": "2019-08-24T14:15:22Z",
+    "TransactionFromDateTime": "2019-08-24T14:15:22Z",
+    "TransactionToDateTime": "2019-08-24T14:15:22Z"
+  },
+  "Risk": {},
+  "Links": {
+    "Self": "http://example.com",
+    "First": "http://example.com",
+    "Prev": "http://example.com",
+    "Next": "http://example.com",
+    "Last": "http://example.com"
+  },
+  "Meta": {
+    "TotalPages": 0,
+    "FirstAvailableDateTime": "2019-08-24T14:15:22Z",
+    "LastAvailableDateTime": "2019-08-24T14:15:22Z"
+  }
+}
+```
 
 
 ## Links to SDKs and Code Libraries
+ ## CreateAccountAccessConsents
 
+<a id="opIdCreateAccountAccessConsents"></a>
 
+> Code samples
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json; charset=utf-8',
+  'Accept': 'application/json; charset=utf-8',
+  'x-fapi-auth-date': 'string',
+  'x-fapi-customer-ip-address': 'string',
+  'x-fapi-interaction-id': 'string',
+  'Authorization': 'string',
+  'x-customer-user-agent': 'string'
+}
+
+r = requests.post('https://sandbox-mtls.ob.hsbc.co.uk/open-banking/v3.1/aisp/account-access-consents', headers = headers)
+
+print(r.json())
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json; charset=utf-8',
+  'Accept' => 'application/json; charset=utf-8',
+  'x-fapi-auth-date' => 'string',
+  'x-fapi-customer-ip-address' => 'string',
+  'x-fapi-interaction-id' => 'string',
+  'Authorization' => 'string',
+  'x-customer-user-agent' => 'string'
+}
+
+result = RestClient.post 'https://sandbox-mtls.ob.hsbc.co.uk/open-banking/v3.1/aisp/account-access-consents',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
 ## Error messages
    ### Error format
    API errors in two ways: standard HTTP response codes and human-readable messages in JSON format.
