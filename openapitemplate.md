@@ -66,7 +66,7 @@ the Documentation.
     "detail": "The requested method and resource are not compatible. See the Allow header for this resource's available methods.",
     "instance": "3b4dcb40-0b6b-4820-bfaa-41267b3826ea"
     }
-    ```
+   ```
 
 
 
